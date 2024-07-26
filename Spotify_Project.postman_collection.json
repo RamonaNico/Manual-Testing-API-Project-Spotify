@@ -1,0 +1,2732 @@
+{
+	"info": {
+		"_postman_id": "66168f4d-26f5-4999-8ec4-8a35410698c3",
+		"name": "Spotify_Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32690218"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Generate Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://accounts.spotify.com/authorize?client_id=54fde6072f5a40b9b1d8a071d9a0b67d&response_type=code&redirect_uri=https://createx_app/callback&scope=ugc-image-upload,user-read-playback-state,user-modify-playback-state,user-read-currently-playing,app-remote-control,streaming,playlist-read-private,playlist-read-collaborative,playlist-modify-private,playlist-modify-public,user-follow-modify,user-follow-read,user-read-playback-position,user-top-read,user-read-recently-played,user-library-modify,user-library-read,user-read-email,user-read-private",
+							"protocol": "https",
+							"host": [
+								"accounts",
+								"spotify",
+								"com"
+							],
+							"path": [
+								"authorize"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "54fde6072f5a40b9b1d8a071d9a0b67d"
+								},
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://createx_app/callback"
+								},
+								{
+									"key": "scope",
+									"value": "ugc-image-upload,user-read-playback-state,user-modify-playback-state,user-read-currently-playing,app-remote-control,streaming,playlist-read-private,playlist-read-collaborative,playlist-modify-private,playlist-modify-public,user-follow-modify,user-follow-read,user-read-playback-position,user-top-read,user-read-recently-played,user-library-modify,user-library-read,user-read-email,user-read-private"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic NTRmZGU2MDcyZjVhNDBiOWIxZDhhMDcxZDlhMGI2N2Q6OTAwOWMwZTZjMWM3NDJjZmIzYzhiNGNmYmMzY2M3Y2I=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "AQCYzPosUi3HGxKhqXdouH2sdsHLXg17iDWes16X-5roT0rIVST5k9rrOIkU8vV_90NcaKYrFptCpCQjRPumWsW8d97-s0qEV6VxL9HtVfPcMVErVEi7rTJT9o4cJbOi1f7Pvz1SDLwNxUM1cXWQ-bf8Ft0D2uEx4Zbh9BWs6UQ-mQ0UtfZg3-lwupInQe0_mdApaVkmbCzcpMuFzP8Jv_iUjkmZNMHQY_b9c6KhFOtc1vkjAfU_BMmeBXIO-ATrYyY0F0RnMNWszI0Lnt42pDXZDMhXqkLZefxlakHN0HT8IVjJvbejfSiHJQkH2w4MXuMugGLtfBpjNxi4mLRQhZwA9ROKrt5dc5Y8Ymk0_mTTt_Tq1f5jQrBdD74WOqgDh9Wd3ghk7ipxpO-b4ucDRq6pQD8CcI2zL_iAODQoMAU3QmY6LJgRNEcMAdfoYZvqzVHIQGdRpwVUhQY56us78p2IbpBAjWPazwG2qm0EuBUniPZ72yNCZHnbdG2A5x7UqN4xhZ93htwakBZxCLyvPnv5dR-x3KaCftLRxxzXQ9Kd5oY1VFFuWLytmbJYv1ggUiqu-_4jrFRhbYmG1KyrCa0G5ZmgBGWWWylFCVnM0lOESjrWBFep7DfXeGP1veu44dtJatHcNuJF7W82WkNp9uxL5bt3ME9fL10HTqe8ySGsNK9Y0LHzKcBMwCAedw3cxi_O5TGZzMcwl4QAJVwN3x5X",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://createx_app/callback",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://accounts.spotify.com/api/token",
+							"protocol": "https",
+							"host": [
+								"accounts",
+								"spotify",
+								"com"
+							],
+							"path": [
+								"api",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Refresh token is present if returned\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    if (jsonData.refresh_token) {\r",
+									"        pm.expect(jsonData.refresh_token).to.be.a('string');\r",
+									"    } else {\r",
+									"        console.log(\"No new refresh token returned. The initial refresh token remains valid.\");\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"var refreshToken = pm.response.json().access_token;\r",
+									"pm.environment.set(\"refreshed_token\", refreshToken);\r",
+									" "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{encoded_base64}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "AQAet1H4dFv5nZnnsQOd55tNabybzQtwYJP3Apfgo_laeNOg8TDN0fc6hbpGpnG8vnEmxRHzzWeVRuyK7kf-F4tY3GbNtrq4PLsYl8dld9wYv0CATVWrCdQgeBbeV4ITHcc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://accounts.spotify.com/api/token",
+							"protocol": "https",
+							"host": [
+								"accounts",
+								"spotify",
+								"com"
+							],
+							"path": [
+								"api",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Playlists",
+			"item": [
+				{
+					"name": "Create Private Playlist - valid fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Playlist created\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check playlist's name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedName = \"My First Playlist\";\r",
+									"    pm.expect(jsonData.name).to.eql(expectedName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check playlist's description\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedDescription = \"Good Vibes Music\";\r",
+									"    pm.expect(jsonData.description).to.eql(expectedDescription);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if playlist is not public\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.public).to.eql(false);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if owner type is user\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.owner.type).to.eql('user');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if track limit is 100\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.tracks.limit).to.eql(100);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My First Playlist\",\r\n    \"description\": \"Good Vibes Music\",\r\n    \"public\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/users/{{spotify_user_id}}/playlists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{spotify_user_id}}",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Playlist - 100 char name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 201\", function () {\r",
+									"    pm.response.to.not.have.status(201);\r",
+									"    pm.response.to.not.have.status(\"Created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"vvvvvvvvvvbbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbb\",\r\n    \"description\": \"My Best Music\",\r\n    \"public\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/users/{{spotify_user_id}}/playlists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{spotify_user_id}}",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Playlist - no name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"Ramona's Music\",\r\n    \"public\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/users/{{spotify_user_id}}/playlists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{spotify_user_id}}",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Items to Playlist - present snapshot id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body has a snapshot_id\", function () {\r",
+									"    pm.expect(pm.response.json()).to.have.property('snapshot_id');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uris\": [\r\n        \"spotify:track:0V3wPSX9ygBnCm8psDIegu\",\r\n        \"spotify:track:5xEM5hIgJ1jjgcEBfpkt2F\",\r\n        \"spotify:track:7HMmFQsKsljwTw8bS7lu19\"\r\n    ],\r\n    \"position\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Items to Playlist - string snapshot id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check if snapshot_id is a string\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.snapshot_id).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uris\": [\r\n        \"spotify:track:1jF7IL57ayN4Ity3jQqGu0\",\r\n        \"spotify:track:2vwlzO0Qp8kfEtzTsCXfyE\",\r\n        \"spotify:track:4esOae7i4rqTbAu9o5Pxco\",\r\n        \"spotify:track:2CvOqDpQIMw69cCzWqr5yr\",\r\n        \"spotify:track:3U4isOIWM3VvDubwSI3y7a\",\r\n        \"spotify:track:1Yk0cQdMLx5RzzFTYwmuld\"\r\n    ],\r\n    \"position\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Items to Deleted Playlist - status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uris\": [\r\n        \"spotify:track:0V3wPSX9ygBnCm8psDIegu\",\r\n        \"spotify:track:5xEM5hIgJ1jjgcEBfpkt2F\",\r\n        \"spotify:track:7HMmFQsKsljwTw8bS7lu19\"\r\n    ],\r\n    \"position\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Items to Playlist - no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(401);  \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uris\": [\r\n        \"spotify:track:1UZOjK1BwmwWU14Erba9CZ\"\r\n    ],\r\n    \"position\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Items to Playlist - invalid track URI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400); \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uris\": [\r\n        \"spotify:track:1UZOjK1BwmwWU14Erba9C\"\r\n    ],\r\n    \"position\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Items to Playlist - empty body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Items to Playlist - no track URI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(400); \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uris\": [\r\n        \r\n    ],\r\n    \"position\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Duplicate Item to Playlist - status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uris\": [\r\n        \"spotify:track:4esOae7i4rqTbAu9o5Pxco\"\r\n    ],\r\n    \"position\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Playlist Items - response time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Deleted Playlist Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User's Playlists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/me/playlists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"me",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Playlist Details - expired token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"    pm.response.to.have.status(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "BQAv-t0G4SR2ALWzUqDh2os6bZqyH-yzFIwRlrQkHlINPrH5-4neYxNilZoR5yVuukJMI5KVbLMDPtZBfsUObWCuc3ZUjXudxlonL3varkmCoLd7Lk1mCADmIi7RCceh5CY9HufFQoD_p1Jdf-dyw56n0xBmdSUZXeGVgiWY6kx4fH_HbMpuPjT9259QoywVLqVEa3F327rePBXySBAyY56VT4E8HMh0NVnIM3Dt3xrnI23-X2uk_fbuSHibkWNTVRgK62K20MhVCt-OhSCppbGUbtaldpyqS18b-wGolXBlQQXHpqIGnWz7M3a2ZTrACjB_TYJuJu_Dws_M4jk0Vpv6ZA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My Awesome Playlist\",\r\n    \"description\": \"Great Vibes Music\",\r\n    \"public\": false\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Playlist Details - status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My Awesome Playlist\",\r\n    \"description\": \"Great Vibes Music\",\r\n    \"public\": false\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Updated Playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const expectedName = \"My Awesome Playlist\";\r",
+									"const expectedDescription = \"Great Vibes Music\";\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: 'https://api.spotify.com/v1/playlists/1BUQCiFArmYS1ROMqzHCyT',\r",
+									"    method: 'GET',\r",
+									"    header: {\r",
+									"        'Authorization': 'Bearer ' + pm.environment.get('access_token')\r",
+									"    }\r",
+									"}, function (err, response) {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    } else {\r",
+									"        var jsonData = pm.response.json();\r",
+									"        pm.test(\"Playlist name is updated\", function () {\r",
+									"            pm.expect(jsonData.name).to.eql(expectedName);\r",
+									"        });\r",
+									"        pm.test(\"Playlist description is updated\", function () {\r",
+									"            pm.expect(jsonData.description).to.eql(expectedDescription);\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Playlist Details - empty body response",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.eql(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My Awesome Playlist\",\r\n    \"description\": \"Great Vibes Music\",\r\n    \"public\": false\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Items - present snapshot id string",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body has a snapshot_id\", function () {\r",
+									"    pm.expect(pm.response.json()).to.have.property('snapshot_id');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if snapshot_id is a string\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.snapshot_id).to.be.a('string');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tracks\": [\r\n        {\r\n            \"uri\": \"spotify:track:5xEM5hIgJ1jjgcEBfpkt2F\"\r\n        }\r\n    ],\r\n    \"snapshot_id\": \"AAAAB4Dh3Oi1ET0kp0fA+DVdqLKOK/60\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Items - position based",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains snapshot_id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('snapshot_id');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tracks\": [\r\n    {\r\n      \"uri\": \"spotify:track:1jF7IL57ayN4Ity3jQqGu0\",\r\n      \"positions\": [0]\r\n    }\r\n  ],\r\n  \"snapshot_id\": \"AAAADv0XJFR7AYvmeGsu7absa/2RzqI/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Items - incorrect position",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.not.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tracks\": [\r\n    {\r\n      \"uri\": \"2CvOqDpQIMw69cCzWqr5yr\",\r\n      \"positions\": [0]\r\n    }\r\n  ],\r\n  \"snapshot_id\": \"AAAAEHp7Dxb4/IHnaA1C1l10iM1eoXud\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Items - invalid position",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.not.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tracks\": [\r\n    {\r\n      \"uri\": \"2CvOqDpQIMw69cCzWqr5yr\",\r\n      \"positions\": [20]\r\n    }\r\n  ],\r\n  \"snapshot_id\": \"AAAAEHp7Dxb4/IHnaA1C1l10iM1eoXud\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Items - invalid URI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.not.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tracks\": [\r\n    {\r\n      \"uri\": \"2vwlzO0Qp8kfEtzTsCXfy\",\r\n      \"positions\": [0]\r\n    }\r\n  ],\r\n  \"snapshot_id\": \"AAAAEHp7Dxb4/IHnaA1C1l10iM1eoXud\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Absent Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains snapshot_id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('snapshot_id');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tracks\": [\r\n        {\r\n            \"uri\": \"spotify:track:0L7zm6afBEtrNKo6C6Gj08\"\r\n        }\r\n    ],\r\n    \"snapshot_id\": \"AAAAEHp7Dxb4/IHnaA1C1l10iM1eoXud\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Duplicate Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains snapshot_id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('snapshot_id');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tracks\": [\r\n        {\r\n            \"uri\": \"spotify:track:4esOae7i4rqTbAu9o5Pxco\"\r\n        }\r\n    ],\r\n    \"snapshot_id\": \"AAAAEca84TV2QYYkfK0Cl6OYpNmdiHoJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Playlist Items - incorrect method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tracks\": [\r\n        {\r\n            \"uri\": \"spotify:track:7HMmFQsKsljwTw8bS7lu19\"\r\n        }\r\n    ],\r\n    \"snapshot_id\": \"AAAAEca84TV2QYYkfK0Cl6OYpNmdiHoJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/playlists/{{playlist_id}}/tracks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								"{{playlist_id}}",
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Artists",
+			"item": [
+				{
+					"name": "Get Artist - valid fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check artist's external URL\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedExternalUrl = \"https://open.spotify.com/artist/6tbjWDEIzxoDsBA1FuhfPW\";\r",
+									"    pm.expect(jsonData.external_urls.spotify).to.eql(expectedExternalUrl);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check artist's followers count\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.followers.total).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check artist's popularity\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedPopularity = 79;\r",
+									"    pm.expect(jsonData.popularity).to.eql(expectedPopularity);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check artist's uri\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedUri = \"spotify:artist:6tbjWDEIzxoDsBA1FuhfPW\";\r",
+									"    pm.expect(jsonData.uri).to.eql(expectedUri);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/artists/6tbjWDEIzxoDsBA1FuhfPW",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"6tbjWDEIzxoDsBA1FuhfPW"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artist - response time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/artists/6vWDO969PvNqNYHIOW5v0m",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"6vWDO969PvNqNYHIOW5v0m"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artist - header present",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/artists/3fMbdgg4jU18AjLCKBhRSm",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"3fMbdgg4jU18AjLCKBhRSm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artist - valid artist name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Artist name is correct\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Madonna\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/artists/6tbjWDEIzxoDsBA1FuhfPW",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"6tbjWDEIzxoDsBA1FuhfPW"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artist - invalid artist name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Artist name is incorrect\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).not.to.eql(\"Cher\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/artists/6tbjWDEIzxoDsBA1FuhfPW",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"6tbjWDEIzxoDsBA1FuhfPW"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artist - valid genres",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Genres are correct\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('genres');\r",
+									"    pm.expect(jsonData.genres).to.eql([\"dance pop\", \"pop\"]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/artists/72OaDtakiy6yFqkt4TsiFt",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"72OaDtakiy6yFqkt4TsiFt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artist - response JSON",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verifies the response structure in the Postman console\r",
+									"pm.test(\"Log response JSON\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    console.log(jsonData);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/artists/72OaDtakiy6yFqkt4TsiFt",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"72OaDtakiy6yFqkt4TsiFt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artist - all fields present",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that the response body is containing all the fields\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"external_urls\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"followers\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"genres\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"href\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"images\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"popularity\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"type\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"uri\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/artists/0EmeFodog0BfCgMzAIvKQp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"artists",
+								"0EmeFodog0BfCgMzAIvKQp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Search Tracks - response time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/search?q=rock&type=track&limit=50",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "rock"
+								},
+								{
+									"key": "type",
+									"value": "track"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tracks - invalid limit value 0",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/search?q=rock&type=track&limit=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "rock"
+								},
+								{
+									"key": "type",
+									"value": "track"
+								},
+								{
+									"key": "limit",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tracks - invalid limit value 51",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/search?q=rock&type=track&limit=51",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "rock"
+								},
+								{
+									"key": "type",
+									"value": "track"
+								},
+								{
+									"key": "limit",
+									"value": "51"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tracks - invalid type limit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/search?q=rock&type=track&limit=a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "rock"
+								},
+								{
+									"key": "type",
+									"value": "track"
+								},
+								{
+									"key": "limit",
+									"value": "a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tracks - no q param",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/search?type=track&limit=50",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "rock",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "track"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tracks - no type param",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/search?q=rock&limit=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "rock"
+								},
+								{
+									"key": "type",
+									"value": "track",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Follow Artists - status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"    pm.response.to.have.status(\"No Content\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\r\n        \"0C8ZW7ezQVs4URX5aX7Kqx\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/me/following?type=artist&id=0C8ZW7ezQVs4URX5aX7Kqx",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "artist"
+								},
+								{
+									"key": "id",
+									"value": "0C8ZW7ezQVs4URX5aX7Kqx"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow Artists - response time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\r\n        \"6RZUqkomCmb8zCRqc9eznB\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/me/following?type=artist&id=6RZUqkomCmb8zCRqc9eznB",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "artist"
+								},
+								{
+									"key": "id",
+									"value": "6RZUqkomCmb8zCRqc9eznB"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow Artists - empty body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Empty body\", function () {\r",
+									"    pm.response.to.have.body(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshed_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\r\n        \"2ye2Wgw4gimLv2eAKyk1NB\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/me/following?type=artist&id=2ye2Wgw4gimLv2eAKyk1NB",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "artist"
+								},
+								{
+									"key": "id",
+									"value": "2ye2Wgw4gimLv2eAKyk1NB"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow Artists - no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(401);  \r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\r\n        \"23wEWD21D4TPYiJugoXmYb\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/me/following?type=artist&id=23wEWD21D4TPYiJugoXmYb",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "artist"
+								},
+								{
+									"key": "id",
+									"value": "23wEWD21D4TPYiJugoXmYb"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "spotify_user_id",
+			"value": "31mdyuuiwzj7lnrlqw7t2gsxhyme",
+			"type": "string"
+		},
+		{
+			"key": "playlist_id",
+			"value": "1BUQCiFArmYS1ROMqzHCyT",
+			"type": "string"
+		}
+	]
+}
